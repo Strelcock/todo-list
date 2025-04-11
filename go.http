@@ -14,6 +14,21 @@ Content-Type: application/json
 
 
 {
-    "email":"a@b.ru",
+    "email":"a@ba.ru",
     "password":"qweasdzxc"
 }
+
+
+###Create Task
+POST http://localhost:8081/tasks
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUifQ.AuEKIYp9_ppBx6P7HWeBaiNBC2Mu61CgxZiVo4AJLRs
+
+{
+    "name":"Buy bread"
+}
+
+
+###Get Tasks
+GET http://localhost:8081/tasks/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUifQ.AuEKIYp9_ppBx6P7HWeBaiNBC2Mu61CgxZiVo4AJLRs

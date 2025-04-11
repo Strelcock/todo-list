@@ -1,6 +1,8 @@
 package di
 
-import "todoProject/internal/user"
+import (
+	"todoProject/internal/user"
+)
 
 type IUserRepository interface {
 	Create(*user.User) (*user.User, error)

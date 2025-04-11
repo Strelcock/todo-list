@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"todoProject/config"
 	"todoProject/internal/auth"
+	"todoProject/internal/tasks"
 	"todoProject/internal/user"
 	"todoProject/pkg/db"
 )
@@ -17,14 +18,21 @@ func main() {
 
 	//repo
 	userRepo := user.NewUserRepositiry(database)
+	taskRepo := tasks.NewTaskRepository(database)
 
 	//service
 	authService := auth.NewAuthService(userRepo)
 
 	//handler
-	auth.NewAuthHandler(router, auth.AuthhandlerDeps{
+	auth.NewAuthHandler(router, auth.AuthHandlerDeps{
 		Config:      conf,
 		AuthService: authService,
+	})
+
+	tasks.NewTaskHandler(router, tasks.TaskHandlerDeps{
+		Config:   conf,
+		TaskRepo: taskRepo,
+		UserRepo: userRepo,
 	})
 
 	server := http.Server{

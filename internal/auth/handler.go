@@ -13,12 +13,12 @@ type AuthHandler struct {
 	*AuthService
 }
 
-type AuthhandlerDeps struct {
+type AuthHandlerDeps struct {
 	*config.Config
 	*AuthService
 }
 
-func NewAuthHandler(router *http.ServeMux, deps AuthhandlerDeps) {
+func NewAuthHandler(router *http.ServeMux, deps AuthHandlerDeps) {
 	handler := &AuthHandler{
 		Config:      deps.Config,
 		AuthService: deps.AuthService,

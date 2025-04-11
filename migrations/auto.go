@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"todoProject/internal/tasks"
 	"todoProject/internal/user"
 
 	"github.com/joho/godotenv"
@@ -22,5 +23,5 @@ func main() {
 		panic(err)
 	}
 
-	db.AutoMigrate(&user.User{})
+	db.AutoMigrate(&user.User{}, &tasks.Task{})
 }
