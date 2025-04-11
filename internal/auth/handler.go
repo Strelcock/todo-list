@@ -44,7 +44,7 @@ func (ah *AuthHandler) Register() http.HandlerFunc {
 			return
 		}
 
-		token, err := jwt.NewJWT(ah.Config.Auth.Secret).Create(jwt.JWTData{
+		data, err := jwt.NewJWT(ah.Config.Auth.Secret).Create(jwt.JWTData{
 			Email: email,
 		})
 		if err != nil {
@@ -52,6 +52,11 @@ func (ah *AuthHandler) Register() http.HandlerFunc {
 			return
 		}
 
+		token := RegisterResponse{
+			JWT: data,
+		}
+
+		jsonconv.Json(w, token, http.StatusCreated)
 	}
 }
 
@@ -65,12 +70,42 @@ func (ah *AuthHandler) Login() http.HandlerFunc {
 		}
 
 		email, password := body.Email, body.Password
-		result, err := ah.AuthService.Login(email, password)
+		_, err = ah.AuthService.Login(email, password)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
 			return
 		}
 
-		jsonconv.Json(w, result, 200)
+		data, err := jwt.NewJWT(ah.Config.Auth.Secret).Create(jwt.JWTData{
+			Email: email,
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
+		}
+
+		token := LoginResponse{
+			JWT: data,
+		}
+		jsonconv.Json(w, token, http.StatusOK)
+
 	}
 }
+
+// func (ah *AuthHandler) Delete() http.HandlerFunc {
+// 	return func(w http.ResponseWriter, r *http.Request) {
+// 		body, err := req.HandleBody[DeleteRequest](&w, r)
+// 		if err != nil {
+// 			http.Error(w, err.Error(), http.StatusBadRequest)
+// 			return
+// 		}
+
+// 		email, password := body.Email, body.Password
+// 		err = ah.AuthService.Delete(email, password)
+// 		if err != nil {
+// 			http.Error(w, err.Error(), http.StatusBadRequest)
+// 			return
+// 		}
+// 		jsonconv.Json(w, "Account deleted", http.StatusOK)
+// 	}
+// }

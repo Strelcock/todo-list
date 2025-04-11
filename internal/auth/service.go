@@ -61,3 +61,20 @@ func (as *AuthService) Login(email, password string) (string, error) {
 
 	return foundUser.Name, nil
 }
+
+// func (as *AuthService) Delete(email, password string) error {
+// 	foundUser, _ := as.UserRepo.FindByEmail(email)
+
+// 	err := bcrypt.CompareHashAndPassword([]byte(foundUser.Password), []byte(password))
+// 	if err != nil {
+// 		return ErrWrongCredentials
+// 	}
+
+// 	err = as.UserRepo.Delete(foundUser)
+// 	if err != nil {
+// 		return err
+// 	}
+
+// 	return nil
+
+// }

@@ -29,3 +29,11 @@ func (ur *UserRepository) FindByEmail(email string) (*User, error) {
 
 	return &user, nil
 }
+
+func (ur *UserRepository) Delete(user *User) error {
+	result := ur.Database.DB.Delete(user, "email = ?", user.Email)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
