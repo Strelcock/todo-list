@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"todoProject/config"
 	"todoProject/internal/auth"
@@ -32,7 +33,6 @@ func main() {
 	tasks.NewTaskHandler(router, tasks.TaskHandlerDeps{
 		Config:   conf,
 		TaskRepo: taskRepo,
-		UserRepo: userRepo,
 	})
 
 	server := http.Server{
@@ -41,5 +41,8 @@ func main() {
 	}
 
 	fmt.Println("Server is listening on port 8081")
-	server.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Fatal(err)
+	}
 }

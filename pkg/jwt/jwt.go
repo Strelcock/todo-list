@@ -1,9 +1,12 @@
 package jwt
 
-import "github.com/golang-jwt/jwt/v5"
+import (
+	"github.com/golang-jwt/jwt/v5"
+)
 
 type JWTData struct {
 	Email string
+	ID    uint
 }
 
 type JWT struct {
@@ -20,6 +23,7 @@ func (j *JWT) Create(data JWTData) (string, error) {
 	//make token with claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": data.Email,
+		"id":    data.ID,
 	})
 
 	//s - signed token
@@ -39,7 +43,9 @@ func (j *JWT) Parse(token string) (bool, *JWTData) {
 		return false, nil
 	}
 	email := t.Claims.(jwt.MapClaims)["email"]
+	uid := t.Claims.(jwt.MapClaims)["id"]
 	return t.Valid, &JWTData{
 		Email: email.(string),
+		ID:    uint(int(uid.(float64))),
 	}
 }

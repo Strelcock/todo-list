@@ -14,6 +14,7 @@ const (
 	AutorizationHeader     = "Authorization"
 	BearerPrefix           = "Bearer "
 	ContextEmailKey    key = "contextEmailKey"
+	ContextUidKey      key = "contextUidKey"
 )
 
 func unauthed(w http.ResponseWriter) {
@@ -38,7 +39,8 @@ func IsAuthed(next http.Handler, config *config.Config) http.HandlerFunc {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), ContextEmailKey, data.Email)
+		ctxEmail := context.WithValue(r.Context(), ContextEmailKey, data.Email)
+		ctx := context.WithValue(ctxEmail, ContextUidKey, data.ID)
 		req := r.WithContext(ctx)
 		next.ServeHTTP(w, req)
 	})

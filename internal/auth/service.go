@@ -23,15 +23,15 @@ func NewAuthService(repo di.IUserRepository) *AuthService {
 	}
 }
 
-func (as *AuthService) Register(name, email, password string) (string, error) {
+func (as *AuthService) Register(name, email, password string) (uint, error) {
 	foundUser, _ := as.UserRepo.FindByEmail(email)
 	if foundUser != nil {
-		return "", ErrUserExists
+		return 0, ErrUserExists
 	}
 
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
 	newUser := &user.User{
@@ -42,24 +42,24 @@ func (as *AuthService) Register(name, email, password string) (string, error) {
 
 	_, err = as.UserRepo.Create(newUser)
 	if err != nil {
-		return "", err
+		return 0, err
 	}
 
-	return name, nil
+	return newUser.ID, nil
 }
 
-func (as *AuthService) Login(email, password string) (string, error) {
+func (as *AuthService) Login(email, password string) (uint, error) {
 	foundUser, _ := as.UserRepo.FindByEmail(email)
 	if foundUser == nil {
-		return "", ErrWrongCredentials
+		return 0, ErrWrongCredentials
 	}
 
 	err := bcrypt.CompareHashAndPassword([]byte(foundUser.Password), []byte(password))
 	if err != nil {
-		return "", ErrWrongCredentials
+		return 0, ErrWrongCredentials
 	}
 
-	return foundUser.Name, nil
+	return foundUser.ID, nil
 }
 
 // func (as *AuthService) Delete(email, password string) error {

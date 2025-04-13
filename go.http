@@ -20,15 +20,34 @@ Content-Type: application/json
 
 
 ###Create Task
-POST http://localhost:8081/tasks
+POST http://localhost:8081/tasks/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUifQ.AuEKIYp9_ppBx6P7HWeBaiNBC2Mu61CgxZiVo4AJLRs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
 
 {
-    "name":"Buy bread"
+    "name":"Buy eggs"
 }
 
 
-###Get Tasks
-GET http://localhost:8081/tasks/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUifQ.AuEKIYp9_ppBx6P7HWeBaiNBC2Mu61CgxZiVo4AJLRs
+###Get Tasks || query: show=all;done;task_name
+GET http://localhost:8081/tasks?show=Buy+bread
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
+
+
+###Do task
+PATCH http://localhost:8081/tasks/mark/Buy+eggs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
+
+
+{
+    "status": false
+}
+
+###Change TAsk Name
+PATCH http://localhost:8081/tasks/name/Buy+bread
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
+
+{
+    "new_name":"hUI"
+}
+

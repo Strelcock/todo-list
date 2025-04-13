@@ -38,7 +38,7 @@ func (ah *AuthHandler) Register() http.HandlerFunc {
 
 		name, email, password := body.Name, body.Email, body.Password
 
-		_, err = ah.AuthService.Register(name, email, password)
+		uid, err := ah.AuthService.Register(name, email, password)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
 			return
@@ -46,6 +46,7 @@ func (ah *AuthHandler) Register() http.HandlerFunc {
 
 		data, err := jwt.NewJWT(ah.Config.Auth.Secret).Create(jwt.JWTData{
 			Email: email,
+			ID:    uid,
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
@@ -70,7 +71,7 @@ func (ah *AuthHandler) Login() http.HandlerFunc {
 		}
 
 		email, password := body.Email, body.Password
-		_, err = ah.AuthService.Login(email, password)
+		uid, err := ah.AuthService.Login(email, password)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
 			return
@@ -78,6 +79,7 @@ func (ah *AuthHandler) Login() http.HandlerFunc {
 
 		data, err := jwt.NewJWT(ah.Config.Auth.Secret).Create(jwt.JWTData{
 			Email: email,
+			ID:    uid,
 		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
