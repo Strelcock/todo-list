@@ -2,8 +2,7 @@ package main
 
 import (
 	"os"
-	"todoProject/internal/tasks"
-	"todoProject/internal/user"
+	"todoProject/internal/models"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -23,5 +22,5 @@ func main() {
 		panic(err)
 	}
 
-	db.AutoMigrate(&user.User{}, &tasks.Task{})
+	db.AutoMigrate(&models.User{}, &models.Task{})
 }

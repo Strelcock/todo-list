@@ -3,7 +3,7 @@ package auth
 import (
 	"errors"
 	"todoProject/internal/di"
-	"todoProject/internal/user"
+	"todoProject/internal/models"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -34,7 +34,7 @@ func (as *AuthService) Register(name, email, password string) (uint, error) {
 		return 0, err
 	}
 
-	newUser := &user.User{
+	newUser := &models.User{
 		Name:     name,
 		Email:    email,
 		Password: string(hashedPass),

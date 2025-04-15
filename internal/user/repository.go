@@ -1,6 +1,7 @@
 package user
 
 import (
+	"todoProject/internal/models"
 	"todoProject/pkg/db"
 )
 
@@ -14,7 +15,7 @@ func NewUserRepositiry(db *db.Db) *UserRepository {
 	}
 }
 
-func (ur *UserRepository) Create(user *User) (*User, error) {
+func (ur *UserRepository) Create(user *models.User) (*models.User, error) {
 	result := ur.Database.DB.Create(user)
 	if result.Error != nil {
 		return nil, result.Error
@@ -22,8 +23,8 @@ func (ur *UserRepository) Create(user *User) (*User, error) {
 	return user, nil
 }
 
-func (ur *UserRepository) FindByEmail(email string) (*User, error) {
-	var user User
+func (ur *UserRepository) FindByEmail(email string) (*models.User, error) {
+	var user models.User
 	result := ur.Database.DB.First(&user, "email = ?", email)
 	if result.Error != nil {
 		return nil, result.Error
@@ -32,7 +33,7 @@ func (ur *UserRepository) FindByEmail(email string) (*User, error) {
 	return &user, nil
 }
 
-func (ur *UserRepository) Delete(user *User) error {
+func (ur *UserRepository) Delete(user *models.User) error {
 	result := ur.Database.DB.Delete(user, "email = ?", user.Email)
 	if result.Error != nil {
 		return result.Error
@@ -40,7 +41,7 @@ func (ur *UserRepository) Delete(user *User) error {
 	return nil
 }
 
-func (ur *UserRepository) ChangeName(user *User, name string) error {
+func (ur *UserRepository) ChangeName(user *models.User, name string) error {
 	result := ur.Database.DB.Model(user).Update("name", name)
 	if result.Error != nil {
 		return result.Error

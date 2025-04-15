@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name":"strelcock",
-    "email": "a@b.ru",
+    "email": "a@ba.ru",
     "password": "qweasdzxc"
 }
 
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 
 {
-    "email":"a@ba.ru",
+    "email":"a@b.ru",
     "password":"qweasdzxc"
 }
 
@@ -22,22 +22,21 @@ Content-Type: application/json
 ###Create Task
 POST http://localhost:8081/tasks/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYi5ydSIsImlkIjoxfQ.0VTCHmzETa2SlaBpmIgXtMyN1t9OHbGDF6wf0ESlSqc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6M30.24HtOF0WP3GJ8Ez_mQIPlO_5m3vsYXw1yks7yhnT2r8
 
 {
-    "name":"Task 3"
+    "name":"Task 5"
 }
 
 
 ###Get Tasks || query: show=all;done;task_name
 GET http://localhost:8081/tasks/all
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6M30.24HtOF0WP3GJ8Ez_mQIPlO_5m3vsYXw1yks7yhnT2r8
 
 
 ###Do task
 PATCH http://localhost:8081/tasks/mark/Task+1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
-
 
 {
     "status": true
@@ -63,7 +62,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEuc
 
 ###DElete USer 
 DELETE http://localhost:8081/user/delete
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYi5ydSIsImlkIjoxfQ.0VTCHmzETa2SlaBpmIgXtMyN1t9OHbGDF6wf0ESlSqc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYi5ydSIsImlkIjoyfQ.RzEfEgxUFr9hjQYQnABboIBBqBJ7Eku31IsPNocVUzk
 
 {
     "email":"a@b.ru"

@@ -1,11 +1,11 @@
 package di
 
 import (
-	"todoProject/internal/user"
+	"todoProject/internal/models"
 )
 
 type IUserRepository interface {
-	Create(*user.User) (*user.User, error)
-	FindByEmail(email string) (*user.User, error)
-	Delete(*user.User) error
+	Create(*models.User) (*models.User, error)
+	FindByEmail(email string) (*models.User, error)
+	Delete(*models.User) error
 }

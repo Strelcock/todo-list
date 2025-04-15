@@ -5,6 +5,7 @@ import (
 	"strings"
 	"todoProject/config"
 	"todoProject/internal/errs"
+	"todoProject/internal/models"
 	"todoProject/pkg/jsonconv"
 	"todoProject/pkg/middleware"
 	"todoProject/pkg/req"
@@ -50,7 +51,7 @@ func (th *TaskHandler) Create() http.HandlerFunc {
 			return
 		}
 
-		task := NewTask(body.Name, uid.(uint))
+		task := models.NewTask(body.Name, uid.(uint))
 
 		createdTask, err := th.TaskRepo.Create(task)
 		if err != nil {
@@ -148,6 +149,7 @@ func (th *TaskHandler) ChangeTaskName() http.HandlerFunc {
 
 		if foundTask.Model == nil {
 			http.Error(w, errs.TaskNotExists, http.StatusNotFound)
+			return
 		}
 
 		err = th.TaskRepo.ChangeName(foundTask, body.NewName)

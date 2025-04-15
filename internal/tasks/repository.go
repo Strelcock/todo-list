@@ -1,6 +1,7 @@
 package tasks
 
 import (
+	"todoProject/internal/models"
 	"todoProject/pkg/db"
 )
 
@@ -14,7 +15,7 @@ func NewTaskRepository(DB *db.Db) *TaskRepository {
 	}
 }
 
-func (tr *TaskRepository) Create(task *Task) (*Task, error) {
+func (tr *TaskRepository) Create(task *models.Task) (*models.Task, error) {
 	result := tr.Database.DB.Create(task)
 	if result.Error != nil {
 		return nil, result.Error
@@ -22,8 +23,8 @@ func (tr *TaskRepository) Create(task *Task) (*Task, error) {
 	return task, nil
 }
 
-func (tr *TaskRepository) GetAll(uid uint) ([]Task, error) {
-	var tasks []Task
+func (tr *TaskRepository) GetAll(uid uint) ([]models.Task, error) {
+	var tasks []models.Task
 	result := tr.Database.DB.Find(&tasks, "user_id = ?", uid)
 	if result.Error != nil {
 		return nil, result.Error
@@ -32,8 +33,8 @@ func (tr *TaskRepository) GetAll(uid uint) ([]Task, error) {
 	return tasks, nil
 }
 
-func (tr *TaskRepository) GetDone(uid uint) (*Task, error) {
-	var task Task
+func (tr *TaskRepository) GetDone(uid uint) (*models.Task, error) {
+	var task models.Task
 	result := tr.Database.DB.Find(&task, "user_id = ? and done = ?", uid, true)
 	if result.Error != nil {
 		return nil, result.Error
@@ -41,8 +42,8 @@ func (tr *TaskRepository) GetDone(uid uint) (*Task, error) {
 	return &task, nil
 }
 
-func (tr *TaskRepository) GetByName(uid uint, name string) (*Task, error) {
-	var task Task
+func (tr *TaskRepository) GetByName(uid uint, name string) (*models.Task, error) {
+	var task models.Task
 	result := tr.Database.DB.Find(&task, "user_id = ? and name = ?", uid, name)
 	if result.Error != nil {
 		return nil, result.Error
@@ -50,7 +51,7 @@ func (tr *TaskRepository) GetByName(uid uint, name string) (*Task, error) {
 	return &task, nil
 }
 
-func (tr *TaskRepository) Mark(task *Task, status bool) error {
+func (tr *TaskRepository) Mark(task *models.Task, status bool) error {
 	result := tr.Database.DB.Model(task).Update("done", status)
 	if result.Error != nil {
 		return result.Error
@@ -58,7 +59,7 @@ func (tr *TaskRepository) Mark(task *Task, status bool) error {
 	return nil
 }
 
-func (tr *TaskRepository) ChangeName(task *Task, name string) error {
+func (tr *TaskRepository) ChangeName(task *models.Task, name string) error {
 	result := tr.Database.DB.Model(task).
 		Where("name = ?", task.Name).
 		Update("name", name)
@@ -68,7 +69,7 @@ func (tr *TaskRepository) ChangeName(task *Task, name string) error {
 	return nil
 }
 
-func (tr *TaskRepository) Delete(task *Task) error {
+func (tr *TaskRepository) Delete(task *models.Task) error {
 	result := tr.Database.DB.Delete(task)
 	if result.Error != nil {
 		return result.Error
