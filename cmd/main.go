@@ -35,6 +35,11 @@ func main() {
 		TaskRepo: taskRepo,
 	})
 
+	user.NewAccHandler(router, user.AccHandlerDeps{
+		Config:   conf,
+		UserRepo: userRepo,
+	})
+
 	server := http.Server{
 		Addr:    ":8081",
 		Handler: router,

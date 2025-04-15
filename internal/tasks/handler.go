@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 	"todoProject/config"
+	"todoProject/internal/errs"
 	"todoProject/pkg/jsonconv"
 	"todoProject/pkg/middleware"
 	"todoProject/pkg/req"
@@ -29,6 +30,7 @@ func NewTaskHandler(router *http.ServeMux, deps TaskHandlerDeps) {
 	router.HandleFunc("GET /tasks/all", middleware.IsAuthed(handler.GetAllTasks(), deps.Config))
 	router.HandleFunc("GET /tasks/done", middleware.IsAuthed(handler.GetDoneTasks(), deps.Config))
 	router.HandleFunc("GET /tasks/{name}", middleware.IsAuthed(handler.GetTaskByName(), deps.Config))
+	router.HandleFunc("DELETE /tasks/delete", middleware.IsAuthed(handler.Delete(), deps.Config))
 
 }
 
@@ -43,7 +45,7 @@ func (th *TaskHandler) Create() http.HandlerFunc {
 		uid := r.Context().Value(middleware.ContextUidKey)
 		foundTask, _ := th.TaskRepo.GetByName(uid.(uint), body.Name)
 
-		if foundTask != nil {
+		if foundTask.Model != nil {
 			http.Error(w, "task already exists", http.StatusBadRequest)
 			return
 		}
@@ -116,6 +118,10 @@ func (th *TaskHandler) Mark() http.HandlerFunc {
 		uid := r.Context().Value(middleware.ContextUidKey)
 
 		foundTask, _ := th.TaskRepo.GetByName(uid.(uint), taskName)
+		if foundTask.Model == nil {
+			http.Error(w, errs.TaskNotExists, http.StatusNotFound)
+			return
+		}
 
 		err = th.TaskRepo.Mark(foundTask, body.Status)
 		if err != nil {
@@ -139,9 +145,9 @@ func (th *TaskHandler) ChangeTaskName() http.HandlerFunc {
 		path := r.PathValue("name")
 		taskName := strings.Join(strings.Split(path, "+"), " ")
 		foundTask, _ := th.TaskRepo.GetByName(uid.(uint), taskName)
-		if foundTask == nil {
-			http.Error(w, "task does not exist", http.StatusNotFound)
-			return
+
+		if foundTask.Model == nil {
+			http.Error(w, errs.TaskNotExists, http.StatusNotFound)
 		}
 
 		err = th.TaskRepo.ChangeName(foundTask, body.NewName)
@@ -151,5 +157,30 @@ func (th *TaskHandler) ChangeTaskName() http.HandlerFunc {
 		}
 
 		jsonconv.Json(w, "Name changed", http.StatusOK)
+	}
+}
+
+func (th *TaskHandler) Delete() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		body, err := req.HandleBody[DeleteRequest](&w, r)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		uid := r.Context().Value(middleware.ContextUidKey)
+
+		foundTask, err := th.TaskRepo.GetByName(uid.(uint), body.Name)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+
+		err = th.TaskRepo.Delete(foundTask)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
 	}
 }

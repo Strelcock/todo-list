@@ -22,25 +22,25 @@ Content-Type: application/json
 ###Create Task
 POST http://localhost:8081/tasks/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYi5ydSIsImlkIjoxfQ.0VTCHmzETa2SlaBpmIgXtMyN1t9OHbGDF6wf0ESlSqc
 
 {
-    "name":"Buy eggs"
+    "name":"Task 3"
 }
 
 
 ###Get Tasks || query: show=all;done;task_name
-GET http://localhost:8081/tasks?show=Buy+bread
+GET http://localhost:8081/tasks/all
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
 
 
 ###Do task
-PATCH http://localhost:8081/tasks/mark/Buy+eggs
+PATCH http://localhost:8081/tasks/mark/Task+1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
 
 
 {
-    "status": false
+    "status": true
 }
 
 ###Change TAsk Name
@@ -49,5 +49,32 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEuc
 
 {
     "new_name":"hUI"
+}
+
+
+###Delete task
+DELETE http://localhost:8081/tasks/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
+
+{
+    "name":"hUI"
+}
+
+
+###DElete USer 
+DELETE http://localhost:8081/user/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYi5ydSIsImlkIjoxfQ.0VTCHmzETa2SlaBpmIgXtMyN1t9OHbGDF6wf0ESlSqc
+
+{
+    "email":"a@b.ru"
+}
+
+###Change USer name
+PATCH http://localhost:8081/user/name
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
+
+{
+    "new_name":"GRECHA LOH",
+    "email":"a@ba.ru"
 }
 

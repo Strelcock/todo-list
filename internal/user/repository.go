@@ -1,6 +1,8 @@
 package user
 
-import "todoProject/pkg/db"
+import (
+	"todoProject/pkg/db"
+)
 
 type UserRepository struct {
 	Database *db.Db
@@ -32,6 +34,14 @@ func (ur *UserRepository) FindByEmail(email string) (*User, error) {
 
 func (ur *UserRepository) Delete(user *User) error {
 	result := ur.Database.DB.Delete(user, "email = ?", user.Email)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
+
+func (ur *UserRepository) ChangeName(user *User, name string) error {
+	result := ur.Database.DB.Model(user).Update("name", name)
 	if result.Error != nil {
 		return result.Error
 	}

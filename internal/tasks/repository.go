@@ -67,3 +67,11 @@ func (tr *TaskRepository) ChangeName(task *Task, name string) error {
 	}
 	return nil
 }
+
+func (tr *TaskRepository) Delete(task *Task) error {
+	result := tr.Database.DB.Delete(task)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

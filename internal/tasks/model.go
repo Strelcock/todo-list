@@ -12,7 +12,7 @@ type Task struct {
 	Done bool   `json:"done"`
 
 	UserID uint      `json:"user_id" gorm:"foreignKey:UserID"`
-	User   user.User `json:"-" gorm:"constraint:OnUodate:CASCADE,OnDelete:CASCADE"`
+	User   user.User `json:"-" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 func NewTask(name string, id uint) *Task {

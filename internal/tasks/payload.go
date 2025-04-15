@@ -12,3 +12,7 @@ type MarkRequest struct {
 type ChangeNameRequest struct {
 	NewName string `json:"new_name"`
 }
+
+type DeleteRequest struct {
+	Name string `json:"name"`
+}
