@@ -47,7 +47,7 @@ PATCH http://localhost:8081/tasks/name/Buy+bread
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
 
 {
-    "new_name":"hUI"
+    "new_name":"    UI"
 }
 
 
@@ -56,7 +56,7 @@ DELETE http://localhost:8081/tasks/delete
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYmEucnUiLCJpZCI6MX0.eT5PdeQMgwj5YSE1CJCvd0SCw3dF6L_-CKrHSDeTBM4
 
 {
-    "name":"hUI"
+    "name":"UI"
 }
 
 
